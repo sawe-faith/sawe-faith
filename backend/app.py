@@ -5,6 +5,7 @@ from flask_jwt_extended import create_access_token, JWTManager, get_jwt_identity
 from flask_bcrypt import Bcrypt
 from models import db, User, Job
 import os
+from flask_cors import CORS
 
 
 
@@ -21,6 +22,7 @@ db.init_app(app)
 api=Api(app)
 jwt=JWTManager(app)
 bcrypt=Bcrypt(app)
+cors=CORS(app)
 
 #index
 class Index(Resource):
@@ -52,6 +54,8 @@ class Users(Resource):
             username=request.json['username'],
             email=request.json['email'],
             user_role=request.json['user_role'],
+            about=request.json['about'],
+            location=request.json['location'],
             password=bcrypt.generate_password_hash(request.json['password']).decode('utf-8')
         )
         
@@ -72,12 +76,13 @@ api.add_resource(Users, '/users')
 
 class User_Login(Resource):
     
-    def post(self, id):
+    def post(self):
         email=request.json['email']
+        username=request.json['username']
         password=request.json['password']
         
         #check for user existance
-        user_exists=User.query.filter(id==id).first()
+        user_exists=User.query.filter_by(email=email).first()
         
         if user_exists:
             access_token=create_access_token(identity='email')
@@ -92,7 +97,7 @@ class User_Login(Resource):
             response=make_response(token, 200)
             return response
 
-api.add_resource(User_Login, '/user/login/<int:id>')
+api.add_resource(User_Login, '/user/login')
 
 #user based on params
 

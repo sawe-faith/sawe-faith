@@ -24,6 +24,8 @@ class User(db.Model, SerializerMixin):
     email=db.Column(db.String)
     password=db.Column(db.String)
     user_role=db.Column(db.String)
+    about=db.Column(db.String)
+    location=db.Column(db.String)
     
     @validates (email)
     def validate_email(self, key, email):
@@ -31,7 +33,7 @@ class User(db.Model, SerializerMixin):
             raise ValueError("invalid email. @ keyword required")
         return email
     def __repr__(self):
-        return f'<User {self.id}, {self.username}, {self.email}, {self.password}, {self.user_role} >'
+        return f'<User {self.id}, {self.username}, {self.email}, {self.password}, {self.user_role}, {self.about}, {self.location} >'
  
  #job model   
 class Job(db.Model, SerializerMixin):
