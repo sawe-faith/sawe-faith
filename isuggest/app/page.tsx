@@ -4,9 +4,17 @@ import { SiWorkplace } from "react-icons/si";
 import Link from 'next/link.js';
 import { FaChevronDown } from "react-icons/fa";
 
+// Define the User type
+type User = {
+  id: number;
+  name: string;
+  email: string;
+  user_type: string;
+}
 
 const Page = () => {
-  const [user, setUser] = useState(null)
+  // Set the type of user state
+  const [user, setUser] = useState<User | null>(null)
   const id = sessionStorage.getItem("id")
 
   useEffect(() => {
@@ -18,7 +26,7 @@ const Page = () => {
           }
           return res.json()
         })
-        .then((data) => {
+        .then((data: User) => { // Ensure data matches the User type
           setUser(data)
           console.log("home data.....", data)
         })
@@ -33,14 +41,18 @@ const Page = () => {
 
         <div className='flex items-center justify-center mt-6 mr-[60px]'>
           {user ? (
-            user.user_type === "admin" ? (
-              <Link href="/user">
-                <img className='w-[40px] hover:cursor-pointer border rounded-full border-[#4fb877] h-auto' src='/usericon.png' alt='user profile' />
-              </Link>
+            user.user_type ? ( // Check if user_type exists
+              user.user_type === "admin" ? (
+                <Link href="/user">
+                  <img className='w-[40px] hover:cursor-pointer border rounded-full border-[#4fb877] h-auto' src='/usericon.png' alt='user profile' />
+                </Link>
+              ) : (
+                <Link href="/userprofile">
+                  <img className='w-[40px] hover:cursor-pointer border rounded-full border-[#4fb877] h-auto' src='/usericon.png' alt='user profile' />
+                </Link>
+              )
             ) : (
-              <Link href="/userprofile">
-                <img className='w-[40px] hover:cursor-pointer border rounded-full border-[#4fb877] h-auto' src='/usericon.png' alt='user profile' />
-              </Link>
+              <p>User type not found</p>
             )
           ) : (
             <Link href="/login">
