@@ -16,7 +16,8 @@ const SignUp = () => {
           password:"",
           location:"",
           about:"",
-          user_role:""
+          user_role:"",
+          user_type:""
       }
       )
       const handleInput=(e)=>{
@@ -41,11 +42,27 @@ const SignUp = () => {
             console.log("Signup data............", data)
             alert("Account created Successfully!")
             sessionStorage.setItem("id", data.id)
-        sessionStorage.setItem("token", data.token)
-            router.push("/")
+            sessionStorage.setItem("token", data.token)
+
+            const user=data.user_type
+
+            console.log("user...............................", user)
+
+           
+       
+           
         })
         .catch(error=>{console.error("Error while trying to create user", error)})
+
+        if(data.user_type === "admin"){
+            router.push("/jobs")
+        }
+        else {
+            router.push("/userjobs")
+        }
+        
       }
+      
   
   return (
     <div  className='flex w-full items-center flex-col  bg-gradient-to-r from-[#040313] to-[#0c093d] h-full text-white'>
@@ -61,12 +78,13 @@ const SignUp = () => {
             <div className='flex flex-col h-full w-[400px] ml-[150px] shadow-lg bg-gradient-to-l from-[#040313] to-[#0c093d] rounded-lg items-center'>
                 <h1 className='mt-[20px] text-center text-[20px]'>Sign up to create a new account</h1>
                 <p className='text-sm mt-2'>Already have an account? <Link className='text-gray-300 italic' href="/login">Sign in!</Link></p>
-                <form onSubmit={handleSubmit}  className='mt-5 gap-9 flex flex-col '>
+                <form onSubmit={handleSubmit}  className='mt-5 gap-6 flex flex-col '>
                     <input className='flex w-[300px]  text-[10px] text-black outline-none bg-gray-200 rounded-sm p-2' type='text' name="username" value={data.username} onChange={handleInput} placeholder='Enter your username'/>
                     <input className='flex w-[300px]  text-[10px] text-black outline-none bg-gray-200 rounded-sm p-2' type='text' name='email' value={data.email} onChange={handleInput} placeholder='Enter your email'/>
                     <div className='flex gap-4 w-[300px]'><input className='flex w-[300px]  text-[10px] text-black outline-none bg-gray-300 rounded-sm p-2' type='text' name='user_role' value={data.user_role} onChange={handleInput} placeholder='Add a role'/>
                     <input className='flex w-[150px]  text-[10px] text-black outline-none bg-gray-300 rounded-sm p-2' type='text' name='location' value={data.location} onChange={handleInput} placeholder='Where you from?'/></div>
                     <textarea className='flex w-[300px]  text-[10px] text-black outline-none bg-gray-300 rounded-sm p-2' type='text' name='about' value={data.about} onChange={handleInput} placeholder='briefly describe yourself'/>
+                    <input className='flex w-[300px]  text-[10px] text-black outline-none bg-gray-300 rounded-sm p-2' type='text' name='user_type' value={data.user_type} onChange={handleInput} placeholder='Signing up as admin or user?'/>
                     <input className='flex w-[300px]  text-[10px] text-black outline-none bg-gray-300 rounded-sm p-2' type='password' name='password' value={data.password} onChange={handleInput} placeholder='Enter your password'/>
                     <button className='flex w-[300px]  text-sm  bg-[#4821a5] items-center justify-center rounded-md p-2'>Create account</button>
                 </form>

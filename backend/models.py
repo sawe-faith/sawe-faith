@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.orm import validates
+from sqlalchemy import func
 
 convention={
     "ix": "ix_%(column_0_label)s",                  
@@ -26,6 +27,9 @@ class User(db.Model, SerializerMixin):
     user_role=db.Column(db.String)
     about=db.Column(db.String)
     location=db.Column(db.String)
+    date_created = db.Column(db.DateTime, default=func.now())
+    user_type=db.Column(db.String)
+    last_active = db.Column(db.DateTime, default=func.now(), onupdate=func.now())
     
     @validates (email)
     def validate_email(self, key, email):
@@ -33,7 +37,7 @@ class User(db.Model, SerializerMixin):
             raise ValueError("invalid email. @ keyword required")
         return email
     def __repr__(self):
-        return f'<User {self.id}, {self.username}, {self.email}, {self.password}, {self.user_role}, {self.about}, {self.location} >'
+        return f'<User {self.id}, {self.username}, {self.email}, {self.password}, {self.user_role}, {self.about}, {self.location}, {self.date_created}, {self.last_active} >'
  
  #job model   
 class Job(db.Model, SerializerMixin):
@@ -44,9 +48,10 @@ class Job(db.Model, SerializerMixin):
     job_title=db.Column(db.String)
     job_description=db.Column(db.String)
     salary=db.Column(db.String)
+    date_created = db.Column(db.DateTime, default=func.now())
     
     def __repr__(self):
-        return f'<Job {self.id}, {self.company}, {self.job_title}, {self.job_description}, {self.salary}>'
+        return f'<Job {self.id}, {self.company}, {self.job_title}, {self.job_description}, {self.salary}, {self.date_created}>'
     
     
     

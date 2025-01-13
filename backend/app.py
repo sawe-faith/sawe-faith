@@ -6,6 +6,8 @@ from flask_bcrypt import Bcrypt
 from models import db, User, Job
 import os
 from flask_cors import CORS
+from sqlalchemy import func
+
 
 
 
@@ -56,6 +58,7 @@ class Users(Resource):
             user_role=request.json['user_role'],
             about=request.json['about'],
             location=request.json['location'],
+            user_type=request.json['user_type'],
             password=bcrypt.generate_password_hash(request.json['password']).decode('utf-8')
         )
         
@@ -79,6 +82,7 @@ class User_Login(Resource):
     def post(self):
         email=request.json['email']
         username=request.json['username']
+        user_type=request.json['user_type']
         password=request.json['password']
         
         #check for user existance
@@ -86,11 +90,13 @@ class User_Login(Resource):
         
         if user_exists:
             access_token=create_access_token(identity='email')
+            user_exists.last_active = func.now()
             
             token={
                 "id":user_exists.id,
                 "email":user_exists.email,
                 "username":user_exists.username,
+                "user_type":user_exists.user_type,
                 "access_token":access_token
             }
             
