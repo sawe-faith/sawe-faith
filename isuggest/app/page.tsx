@@ -4,17 +4,9 @@ import { SiWorkplace } from "react-icons/si";
 import Link from 'next/link.js';
 import { FaChevronDown } from "react-icons/fa";
 
-// Define the User type
-type User = {
-  id: number;
-  name: string;
-  email: string;
-  user_type: string;
-}
 
 const Page = () => {
-  // Set the type of user state
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState(null)
   const id = sessionStorage.getItem("id")
 
   useEffect(() => {
@@ -26,13 +18,17 @@ const Page = () => {
           }
           return res.json()
         })
-        .then((data: User) => { // Ensure data matches the User type
+        .then((data) => {
           setUser(data)
+          sessionStorage.setItem('user_type', data.user_type)
           console.log("home data.....", data)
         })
         .catch(error => { console.error("Error!", error) })
     }
   }, [id]) // Add id to dependency array to avoid stale references
+
+  const user_type=sessionStorage.getItem('user_type')
+  
 
   return (
     <div className='flex w-full items-center flex-col bg-gradient-to-r from-[#040313] to-[#0c093d] text-white'>
@@ -41,24 +37,20 @@ const Page = () => {
 
         <div className='flex items-center justify-center mt-6 mr-[60px]'>
           {user ? (
-            user.user_type ? ( // Check if user_type exists
-              user.user_type === "admin" ? (
-                <Link href="/user">
-                  <img className='w-[40px] hover:cursor-pointer border rounded-full border-[#4fb877] h-auto' src='/usericon.png' alt='user profile' />
-                </Link>
-              ) : (
-                <Link href="/userprofile">
-                  <img className='w-[40px] hover:cursor-pointer border rounded-full border-[#4fb877] h-auto' src='/usericon.png' alt='user profile' />
-                </Link>
-              )
+            user_type === "admin" ? (
+              <Link href="/user">
+                <img className='w-[40px] hover:cursor-pointer border rounded-full border-[#4fb877] h-auto' src='/usericon.png' alt='user profile' />
+              </Link>
             ) : (
-              <p>User type not found</p>
+              <Link href="/userprofile">
+                <img className='w-[40px] hover:cursor-pointer border rounded-full border-[#4fb877] h-auto' src='/usericon.png' alt='user profile' />
+              </Link>
             )
           ) : (
             <Link href="/login">
-              <button className='w-[80px] items-center text-sm italic p-1 rounded-md hover:bg-gradient-to-r hover:from-[#ffa2f4] hover:to-[#b848ab] hover:text-white hover:border-none border border-white'>Login</button>
+              <button className='w-[80px] items-center text-sm italic p-1 rounded-md hover:bg-gradient-to-r hover:from-[#ffa2f4] hover:to-[#b848ab] bg-gradient-to-r from-[#ed9fe6] to-[#b429a1] hover:text-white hover:border-none '>Login</button>
             </Link>
-          )}
+          )} 
         </div>
       </div>
 

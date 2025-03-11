@@ -103,7 +103,7 @@ const AppliedJobs = () => {
             .catch(error=>{console.error("Failed to create job", error)})
           }
   return (
-    <div className='flex w-full  items-center flex-col  bg-gradient-to-r from-[#040313] to-[#0c093d]  text-white'>
+    <div className='flex w-full  items-center flex-col  bg-gradient-to-r from-[#040313] to-[#0c093d] h-screen text-white'>
     <div className='flex w-full mt-4 items-center justify-between '>
       <Link href="/">
         <div className='flex items-center ml-[60px]'>

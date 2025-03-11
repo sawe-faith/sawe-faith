@@ -40,7 +40,7 @@ const UserProfile = () => {
         sessionStorage.removeItem("token")
         sessionStorage.removeItem("id")
         alert("successfully logged out!")
-        router.push("/login")
+        router.push("/")
       }
   return (
     <div  className='flex w-full items-center flex-col  bg-gradient-to-r from-[#040313] to-[#0c093d] text-white'>

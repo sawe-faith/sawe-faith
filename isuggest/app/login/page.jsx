@@ -74,7 +74,7 @@ const Login = () => {
                 <form onSubmit={handleSubmit} className='mt-5 gap-7 flex flex-col '>
                     <input className='flex w-[300px] text-[10px] text-black outline-none bg-gray-200 rounded-sm p-2' type='text' name="username" value={data.username} onChange={handleInput} placeholder='Enter your username'/>
                     <input className='flex w-[300px] text-[10px] text-black outline-none bg-gray-200 rounded-sm p-2' type='text' name='email' value={data.email} onChange={handleInput} placeholder='Enter your email'/>
-                    <input className='flex w-[300px] text-[10px] text-black outline-none bg-gray-200 rounded-sm p-2' type='text' name='user_type' value={data.user_type} onChange={handleInput} placeholder='Signing in as?'/>
+                    <input className='flex w-[300px] text-[10px] text-black outline-none bg-gray-200 rounded-sm p-2' type='text' name='user_type' value={data.user_type} onChange={handleInput} placeholder='Choose to sign in as user or admin'/>
                     <input className='flex w-[300px] text-[10px] text-black outline-none bg-gray-200 rounded-sm p-2' type='password' name='password' value={data.password} onChange={handleInput} placeholder='Enter your password'/>
                     <button className='flex w-[300px] text-sm  bg-[#431f97] items-center justify-center rounded-md p-2'>Sign in</button>
                 </form>

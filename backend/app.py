@@ -147,6 +147,8 @@ class Jobs(Resource):
             })
         response=make_response(jobs, 200)
         return response
+
+    
     
     #create a new job
     def post(self):
@@ -164,6 +166,8 @@ class Jobs(Resource):
         return response
     
 api.add_resource(Jobs, '/jobs')
+
+
 
 #jobs based on paranms
 class JobById(Resource):
